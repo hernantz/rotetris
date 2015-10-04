@@ -1,79 +1,41 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Rotetris</title>
-  </head>
-  <body>
-    <div id=rotetris> </div>
+    <meta charset="UTF-8" />
+    <title>Masonry - Game Dolphin</title>
     <script src="phaser.js"></script>
-    <script>
-      var IDE_HOOK = false;
+    <script src="load.js"></script>
+    <script src="mainmenu.js"></script>
+    <script src="block.js"></script>
+    <script src="game.js"></script>
+  </head>
+  <body style:"margin:0px auto;">
 
-              
-      var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'rotetris', { preload: preload, create: create, update: update });
+  <div id="rotetris" style:"margin:0px auto;"></div>
 
-      function preload() {
+  <script type="text/javascript">
 
-        game.load.image('atari', 'assets/sprites/atari130xe.png');
+    var w = 720, h = 600;
 
-      }
+    window.onload = function() {
 
-      var sprite;
-      var cursors;
-      var walls;
+      var game = new Phaser.Game(w,h,Phaser.AUTO,'rotetris');
 
-      function create() {
-          walls = game.add.group();
+      game.state.add('Load',Game.Load);
 
-          //	Enable p2 physics
-          game.physics.startSystem(Phaser.Physics.P2JS);
+      game.state.add('MainMenu',Game.MainMenu);
 
-          //  Make things a bit more bouncey
-          game.physics.p2.defaultRestitution = 0.8;
+      game.state.add('Game',Game.PlayGame);
 
-          //  Add a sprite
-          sprite = game.add.sprite(200, 200, 'atari');
+      game.state.add('Lose',Game.LoseScreen);
 
-          //  Enable if for physics. This creates a default rectangular body.
-          game.physics.p2.enable(sprite);
+      game.state.add('Win',Game.WinScreen);
 
-          //  Modify a few body properties
-          sprite.body.setZeroDamping();
-          sprite.body.fixedRotation = true;
+      game.state.start('Load');
 
-          text = game.add.text(20, 20, 'Rotetris', { fill: '#ffffff' });
+    };
 
-          cursors = game.input.keyboard.createCursorKeys();
+  </script>
 
-      }
-
-      function update() {
-
-        sprite.body.setZeroVelocity();
-
-          if (cursors.left.isDown)
-          {
-            sprite.body.moveLeft(400);
-          }
-          else if (cursors.right.isDown)
-          {
-            sprite.body.moveRight(400);
-          }
-
-          if (cursors.up.isDown)
-          {
-            sprite.body.moveUp(400);
-          }
-          else if (cursors.down.isDown)
-          {
-            sprite.body.moveDown(400);
-          }
-
-      }
-
-    </script>
   </body>
 </html>
-
